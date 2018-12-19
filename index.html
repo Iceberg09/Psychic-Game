@@ -65,6 +65,7 @@
             document.querySelector("#guessed-so-far").innerHTML = "Letters Guessed: ";
         }
 
+        //Start of the game
         generateLetter();
         updateWins();
         updateLosses();
@@ -74,25 +75,30 @@
 
         document.onkeyup = function(event) {
 
+            //Log the users key presses
             var userGuess = event.key.toLowerCase();
 
+            //Check to see if the user presses a key that they have already guessed
             if (lettersGuessed.indexOf(userGuess) > -1) {
                 alert("You have already used that letter. Guesses left has not changed.");
             } else {
 
+                //Win condition if the user selects the same letter as the randomly generated letter
                 if (letters.indexOf(letterToGuess) === letters.indexOf(userGuess)) {
                     wins++;
                     updateWins();
                     resetLettersGuessed();
                     resetGuessesLeft();
                     generateLetter();
-                } else {
+                } 
+                else {
                     guessesLeft--;
                     updateGuessesLeft();
                     lettersGuessed.push(userGuess);
                     updateLettersGuessed();
                 }
 
+                //If the number of guesses the user has left hits 0, add to the number of user losses and reset game.
                 if (guessesLeft === 0) {
                     losses++
                     updateLosses();
