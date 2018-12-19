@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+
+    <title>Jacob's Psychic Game</title>
+  </head>
+  <body>
+    <h1>The Psychic Game</h1>
+    <p id="wins"></p>
+    <p id="losses"></p>
+    <p id="guesses-left"></p>
+    <p id="guessed-so-far">Letters Guessed:</p>
+
+    <script>
+
+        //Create all variables
+        var letters = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+        var wins = 0;
+        var losses = 0;
+        var guessesLeft = 10;
+        var lettersGuessed = [];
+        var letterToGuess = "";
+        
+        //Create all functions
+
+        //Generate new letter to guess
+        function generateLetter() {
+            letterToGuess = letters[Math.floor(Math.random() * letters.length)];
+
+            return letterToGuess;
+        } 
+
+        //Update number of wins
+        function updateWins() {
+            document.querySelector("#wins").innerHTML = "Wins: " + wins;
+        }
+
+        //Update number of losses
+        function updateLosses() {
+            document.querySelector("#losses").innerHTML = "Losses: " + losses;
+        }
+
+        //Update number of guesses left
+        function updateGuessesLeft() {
+            document.querySelector("#guesses-left").innerHTML = "Guesses Left: " + guessesLeft;
+        }
+
+        //Reset guesses left back to 10
+        function resetGuessesLeft() {
+            guessesLeft = 10;
+            updateGuessesLeft();
+        }
+
+        //Update letters that the user has already guessed
+        function updateLettersGuessed() {
+            document.querySelector("#guessed-so-far").innerHTML = "Letters Guessed: " + lettersGuessed;
+        }
+
+        function resetLettersGuessed() {
+            lettersGuessed = [];
+            document.querySelector("#guessed-so-far").innerHTML = "Letters Guessed: ";
+        }
+
+        generateLetter();
+        updateWins();
+        updateLosses();
+        updateGuessesLeft();
+        
+
+
+        document.onkeyup = function(event) {
+
+            var userGuess = event.key.toLowerCase();
+
+            if (lettersGuessed.indexOf(userGuess) > -1) {
+                alert("You have already used that letter. Guesses left has not changed.");
+            } else {
+
+                if (letters.indexOf(letterToGuess) === letters.indexOf(userGuess)) {
+                    wins++;
+                    updateWins();
+                    resetLettersGuessed();
+                    resetGuessesLeft();
+                    generateLetter();
+                } else {
+                    guessesLeft--;
+                    updateGuessesLeft();
+                    lettersGuessed.push(userGuess);
+                    updateLettersGuessed();
+                }
+
+                if (guessesLeft === 0) {
+                    losses++
+                    updateLosses();
+                    generateLetter();
+                    resetGuessesLeft();
+                    resetLettersGuessed();
+                    
+                }
+
+           
+            }
+
+        }
+
+        
+
+    </script>
+
+
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+  </body>
+</html>
